@@ -1,0 +1,9 @@
+.card > .card-body {
+  position: relative;
+}
+
+.card > .card-body > .btn.btn-close {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
