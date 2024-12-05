@@ -1,10 +1,15 @@
 import { useState, useEffect } from "react";
 
 function App() {
+  const [postsList, setPostsList] = useState([]);
+
   const fetchPosts = () => {
     fetch("http://localhost:3000/posts/")
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        setPostsList(data);
+        console.log(postsList);
+      });
   };
 
   useEffect(() => {
@@ -45,7 +50,7 @@ function App() {
   };
 
   useEffect(() => {
-    console.log(articlesList);
+    // console.log(articlesList);
   }, [articlesList]);
 
   const deletePost = (deleteIndex) => {
@@ -64,6 +69,7 @@ function App() {
         </div>
       </header>
       <main>
+        {/* input section */}
         <section>
           <div className="container mb-3">
             <div className="row">
@@ -126,6 +132,7 @@ function App() {
             </div>
           </div>
         </section>
+        {/* articles section */}
         <section>
           <div className="container mb-3">
             <h3 className="mb-3">I tuoi post:</h3>
@@ -151,6 +158,28 @@ function App() {
               ) : (
                 <div>
                   <h6>Nessun post creato</h6>
+                </div>
+              )}
+            </div>
+            <div className="row gap-3">
+              {postsList.length ? (
+                postsList.map((post) => {
+                  return (
+                    <div className="card col-3">
+                      <div key={post.id} className="card-body">
+                        <button
+                          onClick={() => deletePost(post.id)}
+                          className="btn btn-close"
+                        ></button>
+                        <h4 className="card-title">{post.title}</h4>
+                        <p className="card-text">{post.description}</p>
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <div>
+                  <h6>Nessun post disponibile</h6>
                 </div>
               )}
             </div>
