@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 function App() {
+  // # api logic
   const [postsList, setPostsList] = useState([]);
 
   const fetchPosts = () => {
@@ -8,7 +9,6 @@ function App() {
       .then((res) => res.json())
       .then((data) => {
         setPostsList(data);
-        console.log(postsList);
       });
   };
 
@@ -21,6 +21,8 @@ function App() {
 
     setPostsList(newPostList);
   };
+
+  // # submit form logic
 
   const [articlesList, setArticleList] = useState([]);
   const [articleFields, setArticleFields] = useState({
@@ -147,8 +149,8 @@ function App() {
               {articlesList.length ? (
                 articlesList.map((article, index) => {
                   return (
-                    <div className="card col-3">
-                      <div key={index} className="card-body">
+                    <div key={index} className="card col-3">
+                      <div className="card-body">
                         <button
                           onClick={() => deleteArticle(index)}
                           className="btn btn-close"
@@ -169,18 +171,25 @@ function App() {
               )}
             </div>
             {/* api posts div */}
-            <div className="row gap-3">
+            <div className="row row-cols-4">
               {postsList.length ? (
                 postsList.map((post) => {
                   return (
-                    <div className="card col-3">
-                      <div key={post.id} className="card-body">
+                    <div key={post.id} className="col mb-4">
+                      <div className="card">
                         <button
                           onClick={() => deletePost(post.id)}
                           className="btn btn-close"
                         ></button>
-                        <h4 className="card-title">{post.title}</h4>
-                        <p className="card-text">{post.description}</p>
+                        <img
+                          src={`http://localhost:3000${post.image}`}
+                          className="card-img-top"
+                          alt={post.title}
+                        />
+                        <div className="card-body">
+                          <h5 className="card-title">{post.title}</h5>
+                          <p className="card-text fs-6">{post.description}</p>
+                        </div>
                       </div>
                     </div>
                   );
