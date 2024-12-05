@@ -16,6 +16,12 @@ function App() {
     fetchPosts();
   }, []);
 
+  const deletePost = (deleteId) => {
+    const newPostList = postsList.filter((post) => post.id !== deleteId);
+
+    setPostsList(newPostList);
+  };
+
   const [articlesList, setArticleList] = useState([]);
   const [articleFields, setArticleFields] = useState({
     title: "",
@@ -47,13 +53,14 @@ function App() {
       content: "",
       category: "",
     });
+    console.log(updatedArticlesList);
   };
 
   useEffect(() => {
     // console.log(articlesList);
   }, [articlesList]);
 
-  const deletePost = (deleteIndex) => {
+  const deleteArticle = (deleteIndex) => {
     const newArticlesList = articlesList.filter(
       (article, articleIndex) => articleIndex !== deleteIndex
     );
@@ -143,7 +150,7 @@ function App() {
                     <div className="card col-3">
                       <div key={index} className="card-body">
                         <button
-                          onClick={() => deletePost(index)}
+                          onClick={() => deleteArticle(index)}
                           className="btn btn-close"
                         ></button>
                         <h4 className="card-title">{article.title}</h4>
@@ -161,6 +168,7 @@ function App() {
                 </div>
               )}
             </div>
+            {/* api posts div */}
             <div className="row gap-3">
               {postsList.length ? (
                 postsList.map((post) => {
