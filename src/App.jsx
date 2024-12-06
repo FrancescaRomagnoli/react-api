@@ -44,6 +44,7 @@ function App() {
     const newArticle = {
       title: articleFields.title,
       content: articleFields.content,
+      image: articleFields.image,
       category: articleFields.category,
     };
 
@@ -53,6 +54,7 @@ function App() {
     setArticleFields({
       title: "",
       content: "",
+      image: "",
       category: "",
     });
     console.log(updatedArticlesList);
@@ -117,7 +119,7 @@ function App() {
                   </div>
 
                   {/* select per categoria articolo */}
-                  <div className="mb-2">
+                  {/* <div className="mb-2">
                     <label htmlFor="post-category" className="form-label">
                       Categoria
                     </label>
@@ -132,6 +134,22 @@ function App() {
                       <option value="2">Categoria 2</option>
                       <option value="3">Categoria 3</option>
                     </select>
+                  </div> */}
+
+                  {/* campo url immagine */}
+                  <div className="mb-2">
+                    <label htmlFor="post-img" className="form-label">
+                      Url Immagine
+                    </label>
+                    <input
+                      onChange={handleArticleForm}
+                      value={articleFields.image}
+                      type="text"
+                      id="post-img"
+                      name="image"
+                      className="form-control"
+                      placeholder="Inserisci un url"
+                    />
                   </div>
 
                   {/* bottone submit */}
@@ -145,49 +163,25 @@ function App() {
         <section>
           <div className="container mb-3">
             <h3 className="mb-3">I tuoi post:</h3>
-            <div className="row gap-3">
-              {articlesList.length ? (
-                articlesList.map((article, index) => {
-                  return (
-                    <div key={index} className="card col-3">
-                      <div className="card-body">
-                        <button
-                          onClick={() => deleteArticle(index)}
-                          className="btn btn-close"
-                        ></button>
-                        <h4 className="card-title">{article.title}</h4>
-                        <h6 className="card-subtitle text-body-secondary">
-                          {article.category}
-                        </h6>
-                        <p className="card-text">{article.content}</p>
-                      </div>
-                    </div>
-                  );
-                })
-              ) : (
-                <div>
-                  <h6>Nessun post creato</h6>
-                </div>
-              )}
-            </div>
+
             {/* api posts div */}
-            <div className="row row-cols-4">
+            <div className="row row-cols-3">
               {postsList.length ? (
                 postsList.map((post) => {
                   return (
                     <div key={post.id} className="col mb-4">
-                      <div className="card">
+                      <div className="card h-100">
                         <button
                           onClick={() => deletePost(post.id)}
                           className="btn btn-close"
                         ></button>
                         <img
-                          src={`http://localhost:3000${post.image}`}
+                          src={`${post.image}`}
                           className="card-img-top"
                           alt={post.title}
                         />
                         <div className="card-body">
-                          <h5 className="card-title">{post.title}</h5>
+                          <h4 className="card-title">{post.title}</h4>
                           <p className="card-text fs-6">{post.description}</p>
                         </div>
                       </div>
@@ -197,6 +191,40 @@ function App() {
               ) : (
                 <div>
                   <h6>Nessun post disponibile</h6>
+                </div>
+              )}
+            </div>
+            {/* generated articles */}
+            <div className="row row-cols-3">
+              {articlesList.length ? (
+                articlesList.map((article, index) => {
+                  return (
+                    <>
+                      <div key={index}>
+                        <div className="card h-100">
+                          <button
+                            onClick={() => deleteArticle(index)}
+                            className="btn btn-close"
+                          ></button>
+                          <img
+                            src={`${article.image}`}
+                            className="card-img-top"
+                          />
+                          <div className="card-body">
+                            <h4 className="card-title">{article.title}</h4>
+                            {/* <h6 className="card-subtitle text-body-secondary">
+                              {article.category}
+                            </h6> */}
+                            <p className="card-text fs-6">{article.content}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  );
+                })
+              ) : (
+                <div>
+                  <h6>Nessun post creato</h6>
                 </div>
               )}
             </div>
