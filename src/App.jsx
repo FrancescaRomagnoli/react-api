@@ -17,6 +17,12 @@ function App() {
   }, []);
 
   const deletePost = (deleteId) => {
+    fetch("http://localhost:3000/posts/" + deleteId, { method: "DELETE" })
+      .then((res) => res.json())
+      .then((data) => {
+        setPostsList(data);
+      });
+
     const newPostList = postsList.filter((post) => post.id !== deleteId);
 
     setPostsList(newPostList);
@@ -27,7 +33,9 @@ function App() {
   const [articlesList, setArticleList] = useState([]);
   const [articleFields, setArticleFields] = useState({
     title: "",
-    content: "",
+    description: "",
+    image: "",
+    tags: [],
     category: "",
   });
 
@@ -43,7 +51,7 @@ function App() {
 
     const newArticle = {
       title: articleFields.title,
-      content: articleFields.content,
+      description: articleFields.description,
       image: articleFields.image,
       category: articleFields.category,
     };
@@ -57,15 +65,17 @@ function App() {
     })
       .then((res) => res.json())
       .then((data) => {
-        const updatedArticlesList = [...articlesList, data];
+        const updatedArticlesList = [...postsList, data];
+
+        fetchPosts();
 
         setArticleList(updatedArticlesList);
-        // setArticleFields({
-        //   title: "",
-        //   content: "",
-        //   image: "",
-        //   category: "",
-        // });
+        setArticleFields({
+          title: "",
+          description: "",
+          image: "",
+          category: "",
+        });
         console.log(updatedArticlesList);
       });
   };
@@ -114,15 +124,15 @@ function App() {
 
                   {/* input contenuto articolo */}
                   <div className="mb-2">
-                    <label htmlFor="post-content" className="form-label">
+                    <label htmlFor="post-description" className="form-label">
                       Contenuto
                     </label>
                     <textarea
                       onChange={handleArticleForm}
-                      value={articleFields.content}
+                      value={articleFields.description}
                       type="text"
-                      id="post-content"
-                      name="content"
+                      id="post-description"
+                      name="description"
                       className="form-control"
                       placeholder="Inserisci il contenuto"
                     />
@@ -195,7 +205,7 @@ function App() {
                           <p className="card-text fs-6">{post.description}</p>
                         </div>
                         <div className="card-footer">
-                          <a href="#" class="card-link">
+                          <a href="#" className="card-link">
                             {post.category}
                           </a>
                         </div>
@@ -209,7 +219,6 @@ function App() {
                 </div>
               )}
             </div>
-            {/* generated articles */}
           </div>
         </section>
       </main>
