@@ -1,8 +1,8 @@
-.card {
+.card > .card-header {
   position: relative;
 }
 
-.card > .btn.btn-close {
+.card > .card-header > .btn.btn-close {
   position: absolute;
   right: 5px;
   top: 5px;
