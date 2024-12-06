@@ -48,16 +48,26 @@ function App() {
       category: articleFields.category,
     };
 
-    const updatedArticlesList = [...articlesList, newArticle];
+    fetch("http://localhost:3000/posts/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newArticle),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const updatedArticlesList = [...articlesList, data];
 
-    setArticleList(updatedArticlesList);
-    setArticleFields({
-      title: "",
-      content: "",
-      image: "",
-      category: "",
-    });
-    console.log(updatedArticlesList);
+        setArticleList(updatedArticlesList);
+        // setArticleFields({
+        //   title: "",
+        //   content: "",
+        //   image: "",
+        //   category: "",
+        // });
+        console.log(updatedArticlesList);
+      });
   };
 
   useEffect(() => {
@@ -119,7 +129,7 @@ function App() {
                   </div>
 
                   {/* select per categoria articolo */}
-                  {/* <div className="mb-2">
+                  <div className="mb-2">
                     <label htmlFor="post-category" className="form-label">
                       Categoria
                     </label>
@@ -130,11 +140,11 @@ function App() {
                       id="post-category"
                       className="form-select"
                     >
-                      <option value="1">Categoria 1</option>
-                      <option value="2">Categoria 2</option>
-                      <option value="3">Categoria 3</option>
+                      <option value="Economy">Economy</option>
+                      <option value="Politics">Politics </option>
+                      <option value="Environment">Environment</option>
                     </select>
-                  </div> */}
+                  </div>
 
                   {/* campo url immagine */}
                   <div className="mb-2">
@@ -164,7 +174,7 @@ function App() {
           <div className="container mb-3">
             <h3 className="mb-3">I tuoi post:</h3>
 
-            {/* api posts div */}
+            {/* api articles div */}
             <div className="row row-cols-3">
               {postsList.length ? (
                 postsList.map((post) => {
@@ -184,6 +194,11 @@ function App() {
                           <h4 className="card-title">{post.title}</h4>
                           <p className="card-text fs-6">{post.description}</p>
                         </div>
+                        <div className="card-footer">
+                          <a href="#" class="card-link">
+                            {post.category}
+                          </a>
+                        </div>
                       </div>
                     </div>
                   );
@@ -195,39 +210,6 @@ function App() {
               )}
             </div>
             {/* generated articles */}
-            <div className="row row-cols-3">
-              {articlesList.length ? (
-                articlesList.map((article, index) => {
-                  return (
-                    <>
-                      <div key={index}>
-                        <div className="card h-100">
-                          <button
-                            onClick={() => deleteArticle(index)}
-                            className="btn btn-close"
-                          ></button>
-                          <img
-                            src={`${article.image}`}
-                            className="card-img-top"
-                          />
-                          <div className="card-body">
-                            <h4 className="card-title">{article.title}</h4>
-                            {/* <h6 className="card-subtitle text-body-secondary">
-                              {article.category}
-                            </h6> */}
-                            <p className="card-text fs-6">{article.content}</p>
-                          </div>
-                        </div>
-                      </div>
-                    </>
-                  );
-                })
-              ) : (
-                <div>
-                  <h6>Nessun post creato</h6>
-                </div>
-              )}
-            </div>
           </div>
         </section>
       </main>
